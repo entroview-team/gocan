@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/roffe/gocan"
-	"github.com/roffe/gocan/adapter/passthru"
+	"github.com/entroview-team/gocan"
+	"github.com/entroview-team/gocan/adapter/passthru"
 )
 
 func init() {

@@ -4,9 +4,9 @@ import (
 	"context"
 	"log"
 
-	"github.com/roffe/gocan"
-	"github.com/roffe/gocan/adapter"
-	"github.com/roffe/gocan/pkg/gmlan"
+	"github.com/entroview-team/gocan"
+	"github.com/entroview-team/gocan/adapter"
+	"github.com/entroview-team/gocan/pkg/gmlan"
 )
 
 func main() {

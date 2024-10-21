@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/roffe/gocan"
-	"github.com/roffe/gocan/dvi"
+	"github.com/entroview-team/gocan"
+	"github.com/entroview-team/gocan/dvi"
 )
 
 func init() {

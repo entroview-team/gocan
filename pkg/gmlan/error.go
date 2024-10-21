@@ -1,7 +1,7 @@
 package gmlan
 
 import (
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 )
 
 type GMError struct {

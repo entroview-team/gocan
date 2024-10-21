@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 	"go.bug.st/serial"
 )
 

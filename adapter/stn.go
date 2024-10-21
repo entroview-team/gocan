@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 	"go.bug.st/serial"
 	"golang.org/x/sync/errgroup"
 )

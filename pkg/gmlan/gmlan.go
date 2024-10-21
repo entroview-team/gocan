@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 )
 
 type GMLanOption func(*Client)

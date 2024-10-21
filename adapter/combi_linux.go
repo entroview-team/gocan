@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"sync"
 
+	"github.com/entroview-team/gocan"
 	"github.com/google/gousb"
-	"github.com/roffe/gocan"
 )
 
 var wg sync.WaitGroup

@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 )
 
 type Template struct {

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 	"go.einride.tech/can"
 	"go.einride.tech/can/pkg/candevice"
 	"go.einride.tech/can/pkg/socketcan"

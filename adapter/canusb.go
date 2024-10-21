@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/albenik/bcd"
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 	"go.bug.st/serial"
 )
 

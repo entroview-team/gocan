@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/entroview-team/gocan"
 	"github.com/google/gousb"
-	"github.com/roffe/gocan"
 )
 
 const (

@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 )
 
 /*

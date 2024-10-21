@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/roffe/gocan"
+	"github.com/entroview-team/gocan"
 )
 
 var adapterMap = make(map[string]*AdapterInfo)
