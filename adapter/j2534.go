@@ -214,23 +214,28 @@ func (ma *J2534) PrintVersions() error {
 }
 
 func (ma *J2534) allowAll() {
+	// Enable filter on 11bit ID frames
 	filterID := uint32(0)
 	maskMsg := &passthru.PassThruMsg{
 		ProtocolID:     ma.protocol,
 		DataSize:       4,
 		ExtraDataIndex: 4,
 		Data:           [4128]byte{0x00, 0x00, 0x00, 0x00},
-		TxFlags:        ma.idSizeFlag(),
-		RxStatus:       ma.idSizeFlag(),
 	}
 	patternMsg := &passthru.PassThruMsg{
 		ProtocolID:     ma.protocol,
 		DataSize:       4,
 		ExtraDataIndex: 4,
 		Data:           [4128]byte{0x00, 0x00, 0x00, 0x00},
-		TxFlags:        ma.idSizeFlag(),
-		RxStatus:       ma.idSizeFlag(),
 	}
+	if err := ma.h.PassThruStartMsgFilter(ma.channelID, passthru.PASS_FILTER, maskMsg, patternMsg, nil, &filterID); err != nil {
+		ma.cfg.OnError(fmt.Errorf("PassThruStartMsgFilter: %w", err))
+	}
+
+	// Enable filter on 29bit ID frames
+	filterID = uint32(1)
+	maskMsg.TxFlags = passthru.CAN_29BIT_ID
+	patternMsg.TxFlags = passthru.CAN_29BIT_ID
 	if err := ma.h.PassThruStartMsgFilter(ma.channelID, passthru.PASS_FILTER, maskMsg, patternMsg, nil, &filterID); err != nil {
 		ma.cfg.OnError(fmt.Errorf("PassThruStartMsgFilter: %w", err))
 	}
@@ -245,17 +250,21 @@ func (ma *J2534) setupFilters() error {
 		DataSize:       4,
 		ExtraDataIndex: 4,
 		Data:           [4128]byte{0x00, 0x00, 0xff, 0xff},
-		TxFlags:        ma.idSizeFlag(),
-		RxStatus:       ma.idSizeFlag(),
 	}
 	for i, filter := range ma.cfg.CANFilter {
 		filterID := uint32(i)
+		var idSizeFlag uint32
+		if filter > 0x7ff {
+			idSizeFlag = passthru.CAN_29BIT_ID
+		}
+
+		maskMsg.TxFlags = idSizeFlag
+
 		patternMsg := &passthru.PassThruMsg{
 			ProtocolID:     ma.protocol,
 			DataSize:       4,
 			ExtraDataIndex: 4,
-			TxFlags:        ma.idSizeFlag(),
-			RxStatus:       ma.idSizeFlag(),
+			TxFlags:        idSizeFlag,
 		}
 		binary.BigEndian.PutUint32(patternMsg.Data[:], filter)
 		if err := ma.h.PassThruStartMsgFilter(ma.channelID, passthru.PASS_FILTER, maskMsg, patternMsg, nil, &filterID); err != nil {
