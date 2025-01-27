@@ -1,3 +1,5 @@
+//go:build !arm64
+
 package passthru
 
 import "fmt"
