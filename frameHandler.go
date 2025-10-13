@@ -3,7 +3,7 @@ package gocan
 import (
 	"context"
 	"errors"
-	"fmt"
+	"slices"
 	"sync"
 	"time"
 )
@@ -34,8 +34,16 @@ func (s *Sub) Wait(ctx context.Context, timeout time.Duration) (CANFrame, error)
 		}
 		return f, nil
 	case <-time.After(timeout):
-		return nil, fmt.Errorf("timeout waiting for frame 0x%03X", s.identifiers)
-
+		identifiers := make([]uint32, 0, len(s.identifiers))
+		for _, id := range s.identifiers {
+			identifiers = append(identifiers, id)
+		}
+		slices.Sort(identifiers)
+		return nil, &TimeoutError{
+			Timeout: timeout.Milliseconds(),
+			Frames:  identifiers,
+			Type:    "wait",
+		}
 	}
 }
 
