@@ -121,10 +121,10 @@ func (c *Client) SendAndPoll(ctx context.Context, frame CANFrame, timeout time.D
 }
 
 // Send and wait up to <timeout> for a answer on given identifiers, retries <retries> times only if error is a TimeoutError
-func (c *Client) SendAndPollWithRetries(ctx context.Context, frame CANFrame, timeout time.Duration, retries int64, identifiers ...uint32) (CANFrame, error) {
+func (c *Client) SendAndPollWithRetry(ctx context.Context, frame CANFrame, timeout time.Duration, retries int, identifiers ...uint32) (CANFrame, error) {
 	var lastErr error
 
-	for attempt := int64(0); attempt <= retries; attempt++ {
+	for attempt := 0; attempt <= retries; attempt++ {
 		select {
 		case <-ctx.Done():
 			return nil, ctx.Err()
