@@ -3,7 +3,6 @@ package gocan
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 )
 
@@ -118,38 +117,6 @@ func (c *Client) SendAndPoll(ctx context.Context, frame CANFrame, timeout time.D
 		return nil, err
 	}
 	return p.Wait(ctx, timeout)
-}
-
-// Send and wait up to <timeout> for a answer on given identifiers, retries <retries> times only if error is a TimeoutError
-func (c *Client) SendAndPollWithRetry(ctx context.Context, frame CANFrame, timeout time.Duration, retries int, identifiers ...uint32) (CANFrame, error) {
-	var lastErr error
-
-	for attempt := 0; attempt <= retries; attempt++ {
-		select {
-		case <-ctx.Done():
-			return nil, ctx.Err()
-		default:
-		}
-
-		resp, err := c.SendAndPoll(ctx, frame, timeout, identifiers...)
-		if err == nil {
-			return resp, nil
-		}
-
-		// Do not retry if context was canceled or timed out
-		if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
-			return nil, err
-		}
-
-		lastErr = err
-		var timeoutErr *TimeoutError
-		// Retry only if error is a TimeoutError and max retries not reached
-		if attempt == retries || !errors.As(err, &timeoutErr) {
-			break
-		}
-	}
-
-	return nil, fmt.Errorf("SendAndPoll failed after %d attempts:  %w", retries+1, lastErr)
 }
 
 // Poll for a certain CAN identifier for up to <timeout>
